@@ -9,7 +9,7 @@ const config: Config = {
     "./sanity/**/*.{js,ts,jsx,tsx,mdx}",
   ],
 
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
 };
 
 export default config;

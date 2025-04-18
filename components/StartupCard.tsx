@@ -43,7 +43,11 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
           className="rounded-full"
         />
       </div>
-      <p>{description}</p>
+      <p className="min-h-20 max-h-20 ">
+        {(description ?? "").length > 300
+          ? description?.slice(0, 100) + "..."
+          : description}
+      </p>
       <img
         src={image}
         alt="image"

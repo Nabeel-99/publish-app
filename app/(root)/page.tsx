@@ -2,6 +2,7 @@ import SearchForm from "../../components/SearchForm";
 import { STARTUP_QUERY } from "@/sanity/lib/queries";
 import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import { auth } from "@/auth";
 
 export default async function Home({
   searchParams,
@@ -10,6 +11,8 @@ export default async function Home({
 }) {
   const query = (await searchParams).query;
   const params = { search: query || null };
+  const session = await auth();
+  console.log(session?.id);
   const { data: posts } = await sanityFetch({ query: STARTUP_QUERY, params });
   return (
     <>
@@ -30,7 +33,7 @@ export default async function Home({
           <h1 className="font-bold text-xl">
             {query ? `Search results for "${query}"` : "Recommended Startups"}
           </h1>
-          <div className="grid md:grid-cols-2 gap-6 lg:grid-cols-4">
+          <div className="grid md:grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {posts.length > 0 ? (
               posts.map((post: StartupTypeCard) => (
                 <StartupCard key={post?._id} post={post} />

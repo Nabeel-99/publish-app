@@ -1,8 +1,10 @@
 import { auth, signIn, signOut } from "@/auth";
+import Image from "next/image";
 import Link from "next/link";
 
 const Navbar = async () => {
   const session = await auth();
+
   return (
     <header className="px-12 py-4 bg-white shadow-md">
       <nav className="flex items-center justify-between">
@@ -12,7 +14,7 @@ const Navbar = async () => {
         <div className="flex items-center font-bold  gap-6">
           {session && session?.user ? (
             <>
-              <Link href="/create">Create</Link>
+              <Link href="/startup/create">Create</Link>
               <form
                 action={async () => {
                   "use server";
@@ -28,15 +30,16 @@ const Navbar = async () => {
               </form>
 
               <Link
-                href={`/user/${session?.user?.id}`}
+                href={`https://github.com/${session?.profile?.login}`}
                 className="h-6 w-6 rounded-full bg-black flex items-center justify-center"
               >
-                {/* <Image
-                  src={`${session?.user?.image}`}
+                <Image
+                  src={session?.user?.image}
                   alt="avatar"
-                  width={24}
-                  height={24}
-                /> */}
+                  width={48}
+                  height={48}
+                  className="rounded-full"
+                />
               </Link>
             </>
           ) : (

@@ -5,8 +5,10 @@ import { STARTUP_QUERY_BY_ID } from "@/sanity/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import markdownit from "markdown-it";
+import { Skeleton } from "@/components/ui/skeleton";
+import View from "@/components/View";
 const md = markdownit();
 export const experimental_ppr = true;
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -24,10 +26,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <h1 className="heading rounded-sm">{post.title}</h1>
         <p className="text-center text-white">{post.description}</p>
       </section>
-      <section className="w-full flex flex-col items-center">
-        <div className="flex flex-col  lg:w-3/4  gap-6  px-8 pt-8 lg:px-12 pb-8  lg:items-center">
-          <img src={post.image} alt="" className="object-cover" />
-          <div className="flex   lg:w-3/4 lg:items-center justify-between">
+      <section className="">
+        <div className="flex flex-col max-w-4xl mx-auto w-full  gap-6  px-8 lg:px-0  pt-8  pb-8  lg:items-center">
+          <img src={post.image} alt="" className="object-cover w-2/3 mx-auto" />
+          <div className="flex   max-w-4xl mx-auto w-full lg:items-center justify-between">
             <div className="flex items-center">
               <Image
                 width={48}
@@ -49,23 +51,28 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               {post.category}
             </span>
           </div>
-          <div className="flex flex-col gap-3   lg:w-3/4  ">
+          <div className="flex flex-col gap-3 max-w-4xl mx-auto w-full">
             <h1 className="text-xl font-bold">Pitch Details</h1>
             {parsedContent ? (
               <article
-                className="prose"
+                className="prose prose-lg prose-headings:font-bold prose-headings:text-black prose-p:text-gray-800 prose-ul:list-disc prose-strong:text-black break-words"
                 dangerouslySetInnerHTML={{ __html: parsedContent }}
               />
             ) : (
-              <p>No details Provided.</p>
+              <p>No details provided.</p>
             )}
           </div>
-          <div className="flex flex-col gap-6  mt-8  lg:w-3/4 ">
-            <div className=" bg-pink-200 w-full h-0.5 rounded-full" />
-            <h1 className="text-2xl font-bold">Similar Startups</h1>
-            <div className="grid  md:grid-cols-2  gap-4">
-              <StartupCard post={post} />
-            </div>
+        </div>
+      </section>
+      <section className=" pb-10 w-full flex flex-col items-center">
+        <div className="flex flex-col gap-6 max-w-4xl mx-auto px-8 lg:px-0  mt-8   ">
+          <div className=" bg-pink-200 w-full h-0.5 rounded-full" />
+          <Suspense fallback={<Skeleton />}>
+            <View id={post._id} />
+          </Suspense>
+          <h1 className="text-2xl font-bold">Similar Startups</h1>
+          <div className="grid  md:grid-cols-2  gap-4">
+            <StartupCard post={post} />
           </div>
         </div>
       </section>
