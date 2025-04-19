@@ -135,6 +135,7 @@ const StartupForm = () => {
       </div>
       <div className="flex flex-col gap-2 mb-10">
         <Button
+          type="submit"
           disabled={isPending}
           className="border-4 cursor-pointer flex items-center gap-2 border-black py-8  rounded-full bg-[#d24d61] uppercase text-white font-bold"
         >
