@@ -1,7 +1,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import { LogOut, Plus } from "@deemlol/next-icons";
+import Image from "next/image";
 import Link from "next/link";
-import { Avatar, AvatarImage } from "./ui/avatar";
 
 const Navbar = async () => {
   const session = await auth();
@@ -34,13 +34,17 @@ const Navbar = async () => {
                 </button>
               </form>
 
-              <Link href={`/user/${session?.id}`}>
-                <Avatar className="size-10">
-                  <AvatarImage
-                    src={session?.user?.image || ""}
-                    alt={session?.user?.name || ""}
-                  />
-                </Avatar>
+              <Link
+                href={`/user/${session?.id}`}
+                className="h-6 w-6 rounded-full bg-black flex items-center justify-center"
+              >
+                <Image
+                  src={session?.user?.image}
+                  alt="avatar"
+                  width={60}
+                  height={60}
+                  className="rounded-full"
+                />
               </Link>
             </>
           ) : (
