@@ -1,15 +1,9 @@
 import { auth } from "@/auth";
 import ProfileCard from "@/components/ProfileCard";
-import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import UserStartups from "@/components/UserStartups";
 import { client } from "@/sanity/lib/client";
-import { sanityFetch } from "@/sanity/lib/live";
-import {
-  AUTHOR_BY_ID_QUERY,
-  STARTUP_BY_AUTHOR_QUERY,
-  STARTUP_QUERY,
-} from "@/sanity/lib/queries";
+import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
@@ -29,10 +23,16 @@ const Page = async ({ params }: { params: { id: string } }) => {
         <div className="md:w-sm ">
           <ProfileCard user={user} />
         </div>
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 w-full   gap-10">
-          <Suspense fallback={<Skeleton />}>
-            <UserStartups id={id} />
-          </Suspense>
+        <div className="flex flex-col w-full gap-4">
+          <p className="font-bold text-3xl">
+            {" "}
+            {session?.id === id ? "Your" : "All"} Startups
+          </p>
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 w-full   gap-10">
+            <Suspense fallback={<Skeleton />}>
+              <UserStartups id={id} />
+            </Suspense>
+          </div>
         </div>
       </div>
     </>

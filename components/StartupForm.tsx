@@ -7,7 +7,7 @@ import { BsFillCursorFill } from "react-icons/bs";
 import MDEditor from "@uiw/react-md-editor";
 import { formSchema } from "@/lib/validation";
 import { z } from "zod";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { createStartup } from "@/lib/actions";
 const StartupForm = () => {

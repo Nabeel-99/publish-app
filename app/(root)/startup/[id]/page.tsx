@@ -39,8 +39,8 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       <section className="">
         <div className="flex flex-col max-w-4xl mx-auto w-full  gap-6  px-8 lg:px-0  pt-8  pb-8  lg:items-center">
           <img src={post.image} alt="" className="object-cover w-2/3 mx-auto" />
-          <div className="flex   max-w-4xl mx-auto w-full lg:items-center justify-between">
-            <div className="flex items-center">
+          <div className="flex  max-w-4xl mx-auto w-full lg:items-center justify-between">
+            <div className="flex items-center gap-2">
               <Image
                 width={48}
                 height={48}
@@ -48,7 +48,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 alt={post.author.name}
                 className="rounded-full"
               />
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
                 <p className="text-xl font-bold">{post.author.name}</p>
                 <Link href={`/user/${post.author._id}`} className="text-sm">
                   @{post.author.username}
