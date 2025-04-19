@@ -1,7 +1,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import { LogOut, Plus } from "@deemlol/next-icons";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarImage } from "./ui/avatar";
 
 const Navbar = async () => {
   const session = await auth();
@@ -40,7 +40,6 @@ const Navbar = async () => {
                     src={session?.user?.image || ""}
                     alt={session?.user?.name || ""}
                   />
-                  <AvatarFallback>AV</AvatarFallback>
                 </Avatar>
               </Link>
             </>
