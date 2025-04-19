@@ -1,6 +1,8 @@
 import { auth, signIn, signOut } from "@/auth";
+import { LogOut, Plus } from "@deemlol/next-icons";
 import Image from "next/image";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Navbar = async () => {
   const session = await auth();
@@ -14,7 +16,10 @@ const Navbar = async () => {
         <div className="flex items-center font-bold  gap-6">
           {session && session?.user ? (
             <>
-              <Link href="/startup/create">Create</Link>
+              <Link href="/startup/create">
+                <span className="max-sm:hidden">Create</span>
+                <Plus className="sm:hidden size-6" />
+              </Link>
               <form
                 action={async () => {
                   "use server";
@@ -25,21 +30,19 @@ const Navbar = async () => {
                   type="submit"
                   className="hover:text-black/50 cursor-pointer"
                 >
-                  Logout
+                  <span className="max-sm:hidden">Logout</span>
+                  <LogOut className="sm:hidden size-5" />
                 </button>
               </form>
 
-              <Link
-                href={`https://github.com/${session?.profile?.login}`}
-                className="h-6 w-6 rounded-full bg-black flex items-center justify-center"
-              >
-                <Image
-                  src={session?.user?.image}
-                  alt="avatar"
-                  width={48}
-                  height={48}
-                  className="rounded-full"
-                />
+              <Link href={`/user/${session?.id}}`}>
+                <Avatar className="size-10">
+                  <AvatarImage
+                    src={session?.user?.image || ""}
+                    alt={session?.user?.name || ""}
+                  />
+                  <AvatarFallback>AV</AvatarFallback>
+                </Avatar>
               </Link>
             </>
           ) : (

@@ -18,7 +18,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     description,
   } = post;
   return (
-    <div className="p-4 flex flex-col border rounded-3xl shadow-md drop-shadow-2xl shadow-black gap-3">
+    <div className="p-4 flex flex-col border rounded-3xl h-[490px] shadow-md drop-shadow-2xl shadow-black gap-3">
       <div className="flex items-center justify-between">
         <div className="border rounded-full bg-pink-200 p-3">
           {formatDate(_createdAt)}
@@ -36,24 +36,20 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
           <h2 className="font-extrabold text-xl">{title}</h2>
         </div>
         <Image
-          src={"https://placehold.co/48x48"}
-          alt="placeholder"
+          src={author?.image ?? "https://placehold.co/48x48"}
+          alt={author?.name ?? "user"}
           width={48}
           height={48}
           className="rounded-full"
         />
       </div>
-      <p className="min-h-20 max-h-20 ">
-        {(description ?? "").length > 300
-          ? description?.slice(0, 100) + "..."
-          : description}
-      </p>
+      <p className="line-clamp-2 overflow-hidden">{description}</p>
       <img
         src={image}
         alt="image"
-        className="h-48 w-full object-contain border"
+        className="h-48 w-full  object-contain border"
       />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center mt-4 justify-between">
         <Link href={`/?query=${category?.toLowerCase()}`}>
           <span>{category}</span>
         </Link>

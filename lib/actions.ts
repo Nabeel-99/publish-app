@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { parseServerActionResponse } from "./utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
@@ -49,3 +49,6 @@ export const createStartup = async (
     });
   }
 };
+export async function logoutAction() {
+  await signOut({ redirectTo: "/" });
+}

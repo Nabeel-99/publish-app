@@ -1,7 +1,10 @@
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 import { formatDate } from "@/lib/utils";
 import { client } from "@/sanity/lib/client";
-import { STARTUP_QUERY_BY_ID } from "@/sanity/lib/queries";
+import {
+  PLAYLIST_BY_SLUG_QUERY,
+  STARTUP_QUERY_BY_ID,
+} from "@/sanity/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -13,18 +16,25 @@ const md = markdownit();
 export const experimental_ppr = true;
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
-  const post = await client.fetch(STARTUP_QUERY_BY_ID, { id });
+
+  const [post, { select: editorPosts }] = await Promise.all([
+    client.fetch(STARTUP_QUERY_BY_ID, { id }),
+    client.fetch(PLAYLIST_BY_SLUG_QUERY, {
+      slug: "editor-picks",
+    }),
+  ]);
+
   if (!post) return notFound();
   const parsedContent = md.render(post?.pitch || "");
 
   return (
     <>
-      <section className="bg-red-400 min-h-[250px] flex flex-col  gap-4 items-center justify-center">
+      <section className="bg-red-400 min-h-[250px] p-4 flex flex-col  gap-4 items-center justify-center">
         <div className="bg-yellow-400 px-4 py-4 rounded-md font-bold">
           {formatDate(post._createdAt)}
         </div>
         <h1 className="heading rounded-sm">{post.title}</h1>
-        <p className="text-center text-white">{post.description}</p>
+        <p className="text-center max-w-3xl text-white">{post.description}</p>
       </section>
       <section className="">
         <div className="flex flex-col max-w-4xl mx-auto w-full  gap-6  px-8 lg:px-0  pt-8  pb-8  lg:items-center">
@@ -70,10 +80,16 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <Suspense fallback={<Skeleton />}>
             <View id={post._id} />
           </Suspense>
-          <h1 className="text-2xl font-bold">Similar Startups</h1>
-          <div className="grid  md:grid-cols-2  gap-4">
-            <StartupCard post={post} />
-          </div>
+          {editorPosts.length > 0 && (
+            <>
+              <h1 className="text-2xl font-bold">Similar Startups</h1>
+              <div className="grid  md:grid-cols-2  gap-4">
+                {editorPosts.map((post: StartupTypeCard, i: number) => (
+                  <StartupCard key={i} post={post} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
     </>
