@@ -7,15 +7,10 @@ export const formSchema = z.object({
   link: z
     .string()
     .url()
-    .refine(async (url) => {
-      try {
-        const res = await fetch(url, { method: "HEAD" });
-        const contentType = res.headers.get("content-type");
-        return contentType?.startsWith("image/");
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
+    .refine((url) => {
+      // Regex to check if URL ends with an image extension
+      const imageRegex = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
+      return imageRegex.test(url);
     }),
   pitch: z.string().min(20),
 });
