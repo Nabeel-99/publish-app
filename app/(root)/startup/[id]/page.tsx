@@ -65,7 +65,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <h1 className="text-xl font-bold">Pitch Details</h1>
             {parsedContent ? (
               <article
-                className="prose prose-lg prose-headings:font-bold prose-headings:text-black prose-p:text-gray-800 prose-ul:list-disc prose-strong:text-black prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 break-words"
+                className="markdown prose prose-lg prose-headings:font-bold prose-headings:text-black prose-p:text-gray-800 prose-ul:list-disc prose-strong:text-black prose-blockquote:border-l-4 prose-blockquote:border-gray-300 prose-blockquote:pl-4 break-words"
                 dangerouslySetInnerHTML={{ __html: parsedContent }}
               />
             ) : (
